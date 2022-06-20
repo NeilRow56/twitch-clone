@@ -1,49 +1,45 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from 'next/image';
+import Link from 'next/link';
 import React, { Fragment, useState } from 'react';
-import Logo from '../public/assets/logo.png'
+import Logo from '../public/assets/logo.png';
 import { Menu, Transition } from '@headlessui/react';
 import { BsPerson, BsSearch, BsThreeDotsVertical } from 'react-icons/bs';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-import { useSession, signIn , signOut } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-  }
+  return classes.filter(Boolean).join(' ');
+}
 
 const Navbar = () => {
+  const [nav, setNav] = useState(false);
 
-    const [ nav, setNav] = useState( false )
-    const handleNav = () => {
-        setNav(!nav)
-    }
+  const handleNav = () => {
+    setNav(!nav);
+  };
 
-    const { data: session} = useSession()
+  const { data: session } = useSession();
 
-    // console.log(session )
+  // console.log(session);
+
   return (
-    <div className='fixed h-14 w-full flex flex-nowrap items-center p-4 bg-[#0e0e10]  mb-[2px] z-10'>
-        {/* Left Side */}
-        <div className='flex grow items-center justify-start'>
-            <Link href='/'>
-                <a className='flex'>
-                    <Image
-                        src={Logo}
-                        alt='logo'
-                        width='36'
-                        height='36'
-                        className='cursor-pointer z-10'
-
-                    
-                    />
-
-                    
-                </a>
-
-            </Link>
-            <p className='p-4'>Browse</p>
-            <div>
-            <Menu as='div' className='relative text-left'>
+    <div className='fixed h-14 w-full flex flex-nowrap items-center p-4 bg-[#0e0e10] mb-[2px] z-10'>
+      {/* Left Side */}
+      <div className='flex grow items-center justify-start'>
+        <Link href='/'>
+          <a className='flex'>
+            <Image
+              src={Logo}
+              alt='/'
+              width='36'
+              height='36'
+              className='cursor-pointer z-10'
+            />
+          </a>
+        </Link>
+        <p className='p-4 font-bold hover:text-[#9147ff]'>Browse</p>
+        <div className='p-4'>
+          <Menu as='div' className='relative text-left'>
             <div className='flex'>
               <Menu.Button>
                 <BsThreeDotsVertical size={20} />
@@ -110,11 +106,10 @@ const Navbar = () => {
               </Menu.Items>
             </Transition>
           </Menu>
-            </div>
         </div>
-
-        {/* Center */}
-        <div className='hidden md:flex grow-[2] items-center justify-center'>
+      </div>
+      {/* Middle */}
+      <div className='hidden md:flex grow-[2] items-center justify-center'>
         <div className='bg-gray-500 text-white flex justify-between items-center max-w-[400px] w-full m-auto p-2 rounded-2xl'>
           <div>
             <input
@@ -128,19 +123,18 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
-        {/* Right */}
-        <div className='hidden md:flex grow items-center justify-end'>
-          {session ? (
-            <div className='flex items-center '>
-              <Link href='/account'>
-                <div>
-                  <p className='pr-4 cursor-pointer'>
-                    Welcome, {session.user.name}
-                  </p>
-                </div>
-              </Link>
-              <Menu as='div' className='relative text-left'>
+      {/* Right Side */}
+      <div className='hidden md:flex grow items-center justify-end'>
+        {session ? (
+          <div className='flex items-center'>
+            <Link href='/account'>
+              <div>
+                <p className='pr-4 cursor-pointer'>
+                  Welcome, {session.user.name}
+                </p>
+              </div>
+            </Link>
+            <Menu as='div' className='relative text-left'>
               <div className='flex'>
                 <Menu.Button>
                   <Image
@@ -198,54 +192,49 @@ const Navbar = () => {
                 </Menu.Items>
               </Transition>
             </Menu>
-            </div>
-          ): (
-        <div className='flex items-center'
-        >
+          </div>
+        ) : (
+          <div className='flex items-center'>
             <Link href='/account'>
-            <button className='px-4 py-[6px] rounded-lg font-bold bg-[#9147ff] mr-2'>Account</button>
+              <button className='px-4 py-[6px] rounded-lg font-bold bg-[#9147ff] mr-2'>
+                Account
+              </button>
             </Link>
-            <BsPerson  size={30}/>
-            
-        </div>
+            <BsPerson size={30} />
+          </div>
         )}
-        </div>
-        {/* Hamburger Menu */}
-        <div onClick={handleNav} className='block md:hidden z-10 cursor-pointer'>
+      </div>
+
+      {/* Hamburger Menu */}
+      <div onClick={handleNav} className='block md:hidden z-10 cursor-pointer'>
         {nav ? <AiOutlineClose size={25} /> : <AiOutlineMenu size={25} />}
       </div>
 
-
-
-        {/* Mobile Menu */}
-        <div className={
+      {/* Mobile Menu */}
+      <div
+        className={
           nav
             ? 'md:hidden fixed top-0 left-0 w-full h-screen bg-[#0e0e10] flex justify-center items-center ease-in duration-300'
             : 'md:hidden fixed top-[-100%] left-0 w-full h-screen bg-[#0e0e10] flex justify-center items-center ease-in duration-300'
-        }>
-            <ul className='text-center'>
-                <li className='p-4 text-3xl font-bold'>
-                    <Link href='/'>Home</Link>
-                </li>
-                <li className='p-4 text-3xl font-bold'>
-                    <Link href='/'>Live Channels</Link>
-                </li>
-                <li className='p-4 text-3xl font-bold'>
-                    <Link href='/'>Top Categories</Link>
-                </li>
-                <li className='p-4 text-3xl font-bold'>
-                    <Link href='/account'>Account</Link>
-                </li>
-
-            </ul>
-
-        </div>
-        
-
+        }
+      >
+        <ul className='text-center'>
+          <li onClick={() => setNav(false)} className='p-4 text-3xl font-bold'>
+            <Link href='/'>Home</Link>
+          </li>
+          <li onClick={() => setNav(false)} className='p-4 text-3xl font-bold'>
+            <Link href='/#live'>Live Channels</Link>
+          </li>
+          <li onClick={() => setNav(false)} className='p-4 text-3xl font-bold'>
+            <Link href='/#categories'>Top Categories</Link>
+          </li>
+          <li onClick={() => setNav(false)} className='p-4 text-3xl font-bold'>
+            <Link href='/account'>account</Link>
+          </li>
+        </ul>
+      </div>
     </div>
-        
-  
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

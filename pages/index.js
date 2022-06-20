@@ -1,10 +1,11 @@
+import Layout from "../components/Layout";
 
 
 
 export default function Home() {
   return (
     <div >
-      <h1>Hello Woodland Valley</h1>
+      <Layout />
     </div>
   )
 }
